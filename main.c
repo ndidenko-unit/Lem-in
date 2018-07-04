@@ -20,6 +20,7 @@ void ft_parsants(t_data *data)
         else
             EXITMSG;
     }
+    printf("---ants--%d------", data->ants);
 }
 
 void ft_parscommand (t_data *data)
@@ -45,13 +46,42 @@ void ft_parscommand (t_data *data)
     }
 }
 
+int ft_validroom(t_data *data)
+{
+    int space;
+
+    space = 0;
+    while(*(data->line) != ' ')
+        (data->line)++;
+    while (*(data->line))
+    {
+        if (!ft_isdigit(*(data->line)) && *(data->line) != ' ')
+            EXITMSG;
+        else if (*(data->line) == ' ')
+            space++;
+        (data->line)++;
+    }
+    if (space != 2)
+        EXITMSG;
+    return(1);
+}
+
 void ft_parsing(t_data *data)
 {
-    get_next_line(data->fd, &data->line);
-    if (data->ants == 0 && data->line != 0 && ft_isdigit(data->line[0]))
-        ft_parsants(data);
-    else if (data->line != 0 && data->line[0] == '#')
-        ft_parscommand(data);
+    int i = 0;
+    while (i < 4)
+    {
+        get_next_line(data->fd, &data->line);
+        if (data->ants == 0 && data->line != 0 && ft_isdigit(data->line[0]))
+            ft_parsants(data);
+        else if (data->line != 0 && data->line[0] == '#')
+            ft_parscommand(data);
+        else if (data->line != 0 && data->line[0] != '#' && data->line[0] != 'L'
+                                    && ft_validroom(data))
+            printf("--validroom--\n");
+        i++;
+    }
+    
 }
 
 int main (void)
