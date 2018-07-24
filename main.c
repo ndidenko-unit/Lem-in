@@ -20,7 +20,8 @@ void ft_parsants(t_data *data)
         else
             EXITMSG;
     }
-    printf("---ants--%d------", data->ants);
+    ft_putnbr(data->ants);
+    write(1, "\n", 1);
 }
 
 void ft_parscommand (t_data *data)
@@ -49,8 +50,10 @@ void ft_parscommand (t_data *data)
 int ft_validroom(t_data *data)
 {
     int space;
+    int len;
 
     space = 0;
+    len = ft_strlen(data->line);
     while(*(data->line) != ' ')
         (data->line)++;
     while (*(data->line))
@@ -63,10 +66,12 @@ int ft_validroom(t_data *data)
     }
     if (space != 2)
         EXITMSG;
+    data->line = data->line - len;
+    ft_putstr(data->line);
     return(1);
 }
 
-void ft_parsing(t_data *data)
+void ft_parsing(t_data *data, t_roomlist **head)
 {
     int i = 0;
     while (i < 4)
@@ -78,7 +83,7 @@ void ft_parsing(t_data *data)
             ft_parscommand(data);
         else if (data->line != 0 && data->line[0] != '#' && data->line[0] != 'L'
                                     && ft_validroom(data))
-            printf("--validroom--\n");
+            ft_room(data, head);
         i++;
     }
     
@@ -87,10 +92,11 @@ void ft_parsing(t_data *data)
 int main (void)
 {
     t_data data;
+    t_roomlist *head;
 
     ft_init(&data);
     if(data.fd == -1)
         EXITMSG;
-    ft_parsing(&data);
+    ft_parsing(&data, &head);
     return(0);
 }

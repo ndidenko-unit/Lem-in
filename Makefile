@@ -1,12 +1,12 @@
 NAME = lem-in
 
-FILE_C =  main.c
+FILE_C =  main.c room.c
 
 FILE_O = $(FILE_C:.c=.o)
 
 GCC = gcc
 
-FLAG = -Wall -Wextra -Werror
+FLAG = -Wall -Wextra -Werror -g
 
 LIB_INC = -I libft/
 

@@ -17,4 +17,19 @@ typedef struct  s_data
 	int					end;
 }               t_data;
 
+typedef	struct			s_roomlist
+{
+	struct s_roomlist	**link;
+	char				*name;
+	int					type;
+	int					x;
+	int					y;
+	int					step;
+	int					use;
+	char				*from;
+	struct s_roomlist	*next;
+}						t_roomlist;
+
+void ft_room(t_data *data,  t_roomlist **head);
+
 #endif
