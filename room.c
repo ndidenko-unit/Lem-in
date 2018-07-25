@@ -9,6 +9,19 @@ t_roomlist *ft_createroom(void)
     return(newroom);
 }
 
+
+// void ft_valid2room(t_roomlist *newroom, t_roomlist **head)
+// {
+//     while (*head)
+//     {
+//         if(ft_strcmp((*head)->name, newroom->name) == 0)
+//             EXITMSG;
+//         if((*head)->x == newroom->x && (*head)->y == newroom->y)
+//             EXITMSG;
+//         *head = (*head)->next;
+//     }
+// }
+
 void ft_room(t_data *data, t_roomlist **head)
 {
     t_roomlist *newroom;
@@ -22,6 +35,7 @@ void ft_room(t_data *data, t_roomlist **head)
     newroom->name = ft_strdup(splitroom[0]);
     newroom->x = atoi(splitroom[1]);
     newroom->y = atoi(splitroom[2]);
+    // ft_valid2room(newroom, head);
     if (!(*head)) // addback
     {
         *head = newroom;
@@ -30,5 +44,5 @@ void ft_room(t_data *data, t_roomlist **head)
     tmproom = *head;
     while(tmproom->next != NULL)
         tmproom = tmproom->next;
-    tmproom->next = newroom;  
+    tmproom->next = newroom;
 }

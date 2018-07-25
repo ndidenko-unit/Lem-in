@@ -30,7 +30,7 @@ void ft_parscommand (t_data *data)
 
     len = ft_strlen(data->line);
     if (len == 1 || (len > 1 && data->line[1] != '#'))
-        ft_putstr(data->line);
+        ;
     else if (ft_strcmp(data->line, "##start") == 0)
     {
         if (data->start == 1)
@@ -45,47 +45,84 @@ void ft_parscommand (t_data *data)
         data->end++;
         data->roomtype = 2;
     }
+    ft_putstr(data->line);
+    write(1, "\n", 1);
 }
 
-int ft_validroom(t_data *data)
+int ft_validroom(char *data)
 {
     int space;
     int len;
 
     space = 0;
-    len = ft_strlen(data->line);
-    while(*(data->line) != ' ')
-        (data->line)++;
-    while (*(data->line))
+    len = ft_strlen(data);
+    while(*data != ' ')
+        data++;
+    while (*data)
     {
-        if (!ft_isdigit(*(data->line)) && *(data->line) != ' ')
-            EXITMSG;
-        else if (*(data->line) == ' ')
+        if (!ft_isdigit(*data) && *data != ' ')
+            return(0);
+        else if (*data == ' ' && *data + 1 == ' ')
+            return(0);
+        else if (*data == ' ')
             space++;
-        (data->line)++;
+        data++;
     }
     if (space != 2)
-        EXITMSG;
-    data->line = data->line - len;
-    ft_putstr(data->line);
+        return(0);
+    data = data - len;
+    ft_putstr(data);
+    write (1, "\n", 1);
+    return(1);
+}
+
+int ft_validlink(char *data)
+{
+    int hyphen;
+    int len;
+
+    hyphen = 0;
+    len = ft_strlen(data);
+    while(*data)
+    {
+       if(*data == ' ')
+           return(0);
+       else if(*data == '-')
+            hyphen++;
+        data++;
+    }
+    if (hyphen != 1)
+        return(0);
+    data = data - len;
+    ft_putstr(data);
+    write (1, "\n", 1);
     return(1);
 }
 
 void ft_parsing(t_data *data, t_roomlist **head)
 {
     int i = 0;
-    while (i < 4)
+    while (i < 13)
     {
         get_next_line(data->fd, &data->line);
         if (data->ants == 0 && data->line != 0 && ft_isdigit(data->line[0]))
             ft_parsants(data);
         else if (data->line != 0 && data->line[0] == '#')
             ft_parscommand(data);
-        else if (data->line != 0 && data->line[0] != '#' && data->line[0] != 'L'
-                                    && ft_validroom(data))
+        else if (data->line != 0 && data->line[0] != '#' && data->line[0] != 'L' 
+                    && ft_validroom(data->line))
             ft_room(data, head);
+        else if (data->line != 0 && data->line[0] != 'L' && ft_validlink(data->line))
+            printf("----validlink-----\n");
+        else
+            EXITMSG;
         i++;
     }
+    // while((*head))
+    // {
+    //     printf ("head nema = %s | x = %d | y = %d\n", (*head)->name, (*head)->x, (*head)->y);
+    //     (*head) = (*head)->next;
+    // }
     
 }
 
