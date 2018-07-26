@@ -15,6 +15,7 @@ typedef struct  s_data
 	int					roomtype;
 	int					start;
 	int					end;
+	int					connect;
 }               t_data;
 
 typedef	struct			s_roomlist
@@ -31,5 +32,6 @@ typedef	struct			s_roomlist
 }						t_roomlist;
 
 void ft_room(t_data *data,  t_roomlist **head);
+void ft_link(t_data *data, t_roomlist **head);
 
 #endif
