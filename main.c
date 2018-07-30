@@ -100,12 +100,31 @@ int ft_validlink(char *data)
     return(1);
 }
 
+void ft_valid_start_end(t_roomlist **head)
+{
+    int type1;
+    int type2;
+    t_roomlist *tmp;
+
+    type1 = 0;
+    type2 = 0;
+    tmp = *head; // доделать
+    while(tmp)
+    {
+        if(tmp->type == 1)
+            type1++;
+        else if(tmp->type == 2)
+            type2++;
+        tmp = tmp->next;
+    }
+    if (type1 != 1 || type2 != 1)
+        EXITMSG;
+}
+
 void ft_parsing(t_data *data, t_roomlist **head)
 {
-    int i = 0;
-    while (i < 13)
+    while (get_next_line(data->fd, &data->line))
     {
-        get_next_line(data->fd, &data->line);
         if (data->ants == 0 && data->line != 0 && ft_isdigit(data->line[0]))
             ft_parsants(data);
         else if (data->line != 0 && data->line[0] == '#')
@@ -117,8 +136,8 @@ void ft_parsing(t_data *data, t_roomlist **head)
             ft_link(data, head);
         else
             EXITMSG;
-        i++;
     }
+    ft_valid_start_end(head);
     // while((*head))
     // {
     //     printf ("head nema = %s | x = %d | y = %d\n", (*head)->name, (*head)->x, (*head)->y);
@@ -151,6 +170,21 @@ int main (int argc, char **argv)
     if(data.fd == -1)
         EXITMSG;
     ft_parsing(&data, &head);
+    ft_bfs(&head);
+    // while(head->next)
+    // {
+    //     int i = 0;
+    //     if (head->link)
+    //     {
+    //         while(head->link[i])
+    //         {
+    //             printf("name_this_room: %s name_link_room: %s\n", head->name, head->link[i]->name);
+    //             i++;
+    //         }
+    //     }
+    //     i = 0;
+    //     head = head->next;
+    // }
     close(data.fd);
     return(0);
 }

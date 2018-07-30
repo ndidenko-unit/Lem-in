@@ -71,4 +71,5 @@ void ft_link(t_data *data, t_roomlist **head)
         EXITMSG;
     ft_putstr(data->line);
 	write(1, "\n", 1);
+    
 }
