@@ -171,17 +171,19 @@ int main (int argc, char **argv)
         EXITMSG;
     ft_parsing(&data, &head);
     ft_bfs(&head);
-    // while(head->next)
+    // while(head)
     // {
     //     int i = 0;
     //     if (head->link)
     //     {
     //         while(head->link[i])
     //         {
-    //             printf("name_this_room: %s name_link_room: %s\n", head->name, head->link[i]->name);
+    //             printf("name_this_room: %s[use = %d] name_link_room: %s\n", head->name, head->use, head->link[i]->name);
     //             i++;
     //         }
     //     }
+    //     if (head->from)
+    //         printf("name_this_room: %s[from = %s]\n", head->name, head->from);
     //     i = 0;
     //     head = head->next;
     // }

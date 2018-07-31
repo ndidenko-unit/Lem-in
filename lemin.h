@@ -25,7 +25,6 @@ typedef	struct			s_roomlist
 	int					type;
 	int					x;
 	int					y;
-	int					step;
 	int					use;
 	char				*from;
 	struct s_roomlist	*next;
