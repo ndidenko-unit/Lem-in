@@ -162,7 +162,9 @@ int main (int argc, char **argv)
 {
     t_data data;
     t_roomlist *head;
+    t_road			*rd;
 
+    rd = NULL;
     if (argc > 22)
         printf("ololo");
     ft_init(&data);
@@ -171,6 +173,7 @@ int main (int argc, char **argv)
         EXITMSG;
     ft_parsing(&data, &head);
     ft_bfs(&head);
+    ft_create_rd(&head, &rd);
     // while(head)
     // {
     //     int i = 0;
@@ -187,6 +190,13 @@ int main (int argc, char **argv)
     //     i = 0;
     //     head = head->next;
     // }
+    if (rd == NULL)
+        printf("rd null\n");
+    while (rd)
+    {
+        printf("rd %s\n", rd->nameroom);
+        rd = rd->next;
+    }
     close(data.fd);
     return(0);
 }

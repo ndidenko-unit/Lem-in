@@ -41,5 +41,6 @@ typedef struct			s_road
 void ft_room(t_data *data,  t_roomlist **head);
 void ft_link(t_data *data, t_roomlist **head);
 void ft_bfs(t_roomlist **head);
+void ft_create_rd(t_roomlist **head, t_road **rd);
 
 #endif
