@@ -11,7 +11,7 @@ void ft_create_rd(t_roomlist **head, t_road **rd)
         end = end->next;
     (*rd) = (t_road*)malloc(sizeof(t_road));
 	(*rd)->nameroom = end->name;
-	(*rd)->tg = 0;
+	(*rd)->busy = 0;
     (*rd)->next = NULL;
     while (end->from)
     {
@@ -19,7 +19,7 @@ void ft_create_rd(t_roomlist **head, t_road **rd)
 		new_room->next = (*rd);
 		(*rd) = new_room;
 		new_room->nameroom = end->from;
-		(*rd)->tg = 0;
+		(*rd)->busy = 0;
         buff = *head;
         while(ft_strcmp(buff->name, new_room->nameroom) != 0)
             buff = buff->next;

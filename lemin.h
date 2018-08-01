@@ -33,14 +33,22 @@ typedef	struct			s_roomlist
 typedef struct			s_road
 {
 	char				*nameroom;
-	int					tg;
-	int					ant_room;
+	int					busy;
+	int					antinroom;
 	struct s_road		*next;
 }						t_road;
+
+typedef struct			s_ants
+{
+	int					antnbr;
+	int					finish;
+	struct s_road		*room;
+}						t_ants;
 
 void ft_room(t_data *data,  t_roomlist **head);
 void ft_link(t_data *data, t_roomlist **head);
 void ft_bfs(t_roomlist **head);
 void ft_create_rd(t_roomlist **head, t_road **rd);
+void ft_let_my_people_go(t_road **rd, int ants);
 
 #endif
