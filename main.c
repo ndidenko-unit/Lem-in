@@ -1,6 +1,6 @@
 #include "lemin.h"
 
-void ft_init(t_data *data)
+static void ft_init(t_data *data)
 {
     data->fd = 0;
     data->ants = 0;
@@ -11,8 +11,11 @@ void ft_init(t_data *data)
     data->connect = 0;
 }
 
-void ft_parsants(t_data *data)
+ static void ft_parsants(t_data *data)
 {
+    char *tmp;
+
+    tmp = data->line;
     data->ants = ft_atoi(data->line);
     while(*(data->line))
     {
@@ -23,9 +26,10 @@ void ft_parsants(t_data *data)
     }
     ft_putnbr(data->ants);
     write(1, "\n", 1);
+    free(tmp);
 }
 
-void ft_parscommand (t_data *data)
+static void ft_parscommand (t_data *data)
 {
     int len;
 
@@ -46,79 +50,11 @@ void ft_parscommand (t_data *data)
         data->end++;
         data->roomtype = 2;
     }
+    else
+        EXITMSG;
     ft_putstr(data->line);
     write(1, "\n", 1);
-}
-
-int ft_validroom(char *data)
-{
-    int space;
-    int len;
-
-    space = 0;
-    len = ft_strlen(data);
-    while(*data != ' ' && *data != '\0')
-        data++;
-    while (*data)
-    {
-        if (!ft_isdigit(*data) && *data != ' ')
-            return(0);
-        else if (*data == ' ' && *data + 1 == ' ')
-            return(0);
-        else if (*data == ' ')
-            space++;
-        data++;
-    }
-    if (space != 2)
-        return(0);
-    data = data - len;
-    ft_putstr(data);
-    write (1, "\n", 1);
-    return(1);
-}
-
-int ft_validlink(char *data)
-{
-    int hyphen;
-    int len;
-
-    hyphen = 0;
-    len = ft_strlen(data);
-    while(*data)
-    {
-       if(*data == ' ')
-           return(0);
-       else if(*data == '-')
-            hyphen++;
-        data++;
-    }
-    if (hyphen != 1)
-        return(0);
-    data = data - len;
-    // ft_putstr(data);
-    // write (1, "\n", 1);
-    return(1);
-}
-
-void ft_valid_start_end(t_roomlist **head)
-{
-    int type1;
-    int type2;
-    t_roomlist *tmp;
-
-    type1 = 0;
-    type2 = 0;
-    tmp = *head; // доделать
-    while(tmp)
-    {
-        if(tmp->type == 1)
-            type1++;
-        else if(tmp->type == 2)
-            type2++;
-        tmp = tmp->next;
-    }
-    if (type1 != 1 || type2 != 1)
-        EXITMSG;
+    free(data->line);
 }
 
 void ft_parsing(t_data *data, t_roomlist **head)
@@ -130,7 +66,7 @@ void ft_parsing(t_data *data, t_roomlist **head)
         else if (data->line != 0 && data->line[0] == '#')
             ft_parscommand(data);
         else if (data->line != 0 && data->line[0] != '#' && data->line[0] != 'L' 
-                    && ft_validroom(data->line))
+                    && ft_validroom(data->line) && ft_cw(data->line) == 3)
             ft_room(data, head);
         else if (data->line != 0 && data->line[0] != 'L' && ft_validlink(data->line))
             ft_link(data, head);
@@ -138,6 +74,7 @@ void ft_parsing(t_data *data, t_roomlist **head)
             EXITMSG;
     }
     ft_valid_start_end(head);
+
     // while((*head))
     // {
     //     printf ("head nema = %s | x = %d | y = %d\n", (*head)->name, (*head)->x, (*head)->y);
@@ -150,11 +87,22 @@ void ft_parsing(t_data *data, t_roomlist **head)
 // {
 //     t_data data;
 //     t_roomlist *head;
+//     t_road			*rd;
 
+//     rd = NULL;
+//     head = NULL;
 //     ft_init(&data);
 //     if(data.fd == -1)
 //         EXITMSG;
 //     ft_parsing(&data, &head);
+//     ft_bfs(&head);
+//     ft_create_rd(&head, &rd);
+//     ft_let_my_people_go(&rd, data.ants);
+//     while (rd)
+// 	{
+// 		free(rd);
+// 		rd = rd->next;
+// 	}
 //     return(0);
 // }
 
@@ -165,6 +113,7 @@ int main (int argc, char **argv)
     t_road			*rd;
 
     rd = NULL;
+    head = NULL;
     if (argc > 22)
         printf("ololo");
     ft_init(&data);
@@ -175,6 +124,12 @@ int main (int argc, char **argv)
     ft_bfs(&head);
     ft_create_rd(&head, &rd);
     ft_let_my_people_go(&rd, data.ants);
+    while (rd)
+	{
+		free(rd);
+		rd = rd->next;
+	}
+   
     // while(head)
     // {
     //     int i = 0;
@@ -191,6 +146,7 @@ int main (int argc, char **argv)
     //     i = 0;
     //     head = head->next;
     // }
+    system ("leaks -quiet lem-in");
     close(data.fd);
     return(0);
 }

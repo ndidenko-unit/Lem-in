@@ -1,6 +1,6 @@
 NAME = lem-in
 
-FILE_C =  main.c room.c link.c bfs.c create_rd.c let_my_people_go.c
+FILE_C =  main.c room.c link.c bfs.c create_rd.c let_my_people_go.c valid.c
 
 FILE_O = $(FILE_C:.c=.o)
 

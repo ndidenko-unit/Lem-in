@@ -9,6 +9,14 @@ static t_roomlist *ft_createroom(void)
     return(newroom);
 }
 
+static void ft_freeroom(char **splitroom, t_data *data)
+{
+        free(splitroom[0]);
+        free(splitroom[1]);
+        free(splitroom[2]);
+        free(splitroom);
+        free(data->line);
+}
 
 static void ft_valid2room(t_roomlist *newroom, t_roomlist *head)
 {
@@ -33,16 +41,18 @@ void ft_room(t_data *data, t_roomlist **head)
     data->roomtype = 0;
     splitroom = ft_strsplit(data->line, ' ');
     newroom->name = ft_strdup(splitroom[0]);
-    newroom->x = atoi(splitroom[1]);
-    newroom->y = atoi(splitroom[2]);
+    newroom->x = ft_atoi(splitroom[1]);
+    newroom->y = ft_atoi(splitroom[2]);
     ft_valid2room(newroom, *head);
     if (!(*head)) // addback
     {
         *head = newroom;
+        ft_freeroom(splitroom, data);
         return;
     }
     tmproom = *head;
     while(tmproom->next != NULL)
         tmproom = tmproom->next;
     tmproom->next = newroom;
+    ft_freeroom(splitroom, data);
 }

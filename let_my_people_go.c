@@ -69,4 +69,5 @@ void ft_let_my_people_go(t_road **rd, int ants)
         if (end->antinroom != ants)
             write(1, "\n", 1);
     }
+    free(anthill);
 }

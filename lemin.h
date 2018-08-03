@@ -49,6 +49,11 @@ void ft_room(t_data *data,  t_roomlist **head);
 void ft_link(t_data *data, t_roomlist **head);
 void ft_bfs(t_roomlist **head);
 void ft_create_rd(t_roomlist **head, t_road **rd);
+t_road *ft_createroad(void);
 void ft_let_my_people_go(t_road **rd, int ants);
+int ft_validroom(char *data);
+int ft_validlink(char *data);
+void ft_valid_start_end(t_roomlist **head);
+int ft_cw(char *str);
 
 #endif

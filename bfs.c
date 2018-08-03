@@ -1,15 +1,5 @@
 #include "lemin.h"
 
-static t_road *ft_createroad(void)
-{
-    t_road *newroad;
-
-    newroad = (t_road*)malloc(sizeof(t_road));
-    ft_memset(newroad, 0, sizeof(t_road));
-    newroad->next = NULL;
-    return(newroad);
-}
-
 static int	ft_cmp_queue(t_road *start_queue, char *name)
 {
 	while (start_queue)

@@ -1,5 +1,15 @@
 #include "lemin.h"
 
+t_road *ft_createroad(void)
+{
+    t_road *newroad;
+
+    newroad = (t_road*)malloc(sizeof(t_road));
+    ft_memset(newroad, 0, sizeof(t_road));
+    newroad->next = NULL;
+    return(newroad);
+}
+
 void ft_create_rd(t_roomlist **head, t_road **rd)
 {
     t_roomlist *end;
